@@ -5,163 +5,103 @@ using System.Reflection;
 
 namespace LP_sem8_Dynamic_Csharp
 {
-    #region Factory para Ejercicio 1 y 2
-    public static class Factory
-    {
-        public static CreatePerson New => new CreatePerson();
-    }
-    public class CreatePerson
-    {
-        public Person Person => new Person();
-    }
-    #endregion
     #region Ejercicio 1
-    public class Person
-    {
-        public string FirstName;
-        public string LastName;
+    //public static class Factory
+    //{
+    //    public static CreatePerson New => new CreatePerson();
+    //}
+    //public class CreatePerson
+    //{
+    //    public Person Person => new Person();
+    //}
 
-        public Person() { }
-
-        public Person(string FirstName, string LastName)
-        {
-            this.FirstName = FirstName;
-            this.LastName = LastName;
-        }
-        public string this[string attribute]
-        {
-            get
-            {
-                switch (attribute)
-                {
-                    case "FirstName":
-                        return this.FirstName;
-                    case "LastName":
-                        return this.LastName;
-                    default:
-                        return string.Empty;
-                }
-            }
-            set
-            {
-                if (attribute == "FirstName")
-                    this.FirstName = value;
-                if (attribute == "LastName")
-                    this.LastName = value;
-            }
-        }
-    }
-    static public class FluentInterfacePerson
-    {
-        public static Person FirstName(this Person person, string fName)
-        {
-            person.FirstName = fName;
-            return person;
-        }
-        public static Person LastName(this Person person, string lName)
-        {
-            person.LastName = lName;
-            return person;
-        }
-    }
-    //Metodo extendido de persona
-    static public class FluentInterfaceCreatePerson
-    {
-        public static Person Person(this CreatePerson New, string FirstName, string LastName)
-        {
-            return new Person(FirstName, LastName);
-        }
-    }
-    #endregion
-    #region Ejercicio 2
-    //public class Person: DynamicObject
+    //public class Person
     //{
     //    public string FirstName;
     //    public string LastName;
 
-    //    Dictionary<string, object> properties = new Dictionary<string, object>();
+    //    public Person() { }
 
-    //    public override bool TryGetMember(GetMemberBinder binder, out object result)
+    //    public Person(string FirstName, string LastName)
     //    {
-    //        return properties.TryGetValue(binder.Name, out result);
+    //        this.FirstName = FirstName;
+    //        this.LastName = LastName;
     //    }
-    //    public override bool TrySetMember(SetMemberBinder binder, object value)
+    //    public string this[string attribute]
     //    {
-    //          properties[binder.Name] = value;
-    //          return true;
-
-    //    }
-    //    public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
-    //    {
-    //        string index = (string)indexes[0];
-    //        return properties.TryGetValue(index, out result);
-    //    }
-    //    public override bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value)
-    //    {
-    //        string index = (string)indexes[0];
-
-    //        if (properties.ContainsKey(index))
-    //            properties[index] = value;
-    //        else
-    //            properties.Add(index, value);
-    //        return true;
-    //    }
-    //    public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-    //    {
-    //        if ((args.Length == 3) &&
-    //        (args[0].GetType() == typeof(string)) &&
-    //        (args[1].GetType() == typeof(string)) &&
-    //        (args[2].GetType() == typeof(Person)))
+    //        get
     //        {
-    //            //If the property already exists,
-    //            // its value is changed.
-    //            // Otherwise, a new property is created.
-    //            if (properties.ContainsKey("FirstName"))
-    //                properties["FirstName"] = args[0];
-    //            else
-    //                properties.Add("FirstName", args[0]);
-
-    //            if (properties.ContainsKey("LastName"))
-    //                properties["LastName"] = args[1];
-    //            else
-    //                properties.Add("LastName", args[1]);
-
-    //            if (properties.ContainsKey("Manager"))
-    //                properties["Manager"] = args[2];
-    //            else
-    //                properties.Add("Manager", args[2]);
-
-    //            result = true;
-    //            return true;
+    //            switch (attribute)
+    //            {
+    //                case "FirstName":
+    //                    return this.FirstName;
+    //                case "LastName":
+    //                    return this.LastName;
+    //                default:
+    //                    return string.Empty;
+    //            }
     //        }
-    //        else
+    //        set
     //        {
-    //            // If the number of arguments is wrong,
-    //            // or if arguments are of the wrong type,
-    //            // the method returns false.
-    //            result = false;
-    //            return false;
+    //            if (attribute == "FirstName")
+    //                this.FirstName = value;
+    //            if (attribute == "LastName")
+    //                this.LastName = value;
     //        }
     //    }
+    //}
+    //static public class FluentInterfacePerson
+    //{
+    //    public static Person FirstName(this Person person, string fName)
+    //    {
+    //        person.FirstName = fName;
+    //        return person;
+    //    }
+    //    public static Person LastName(this Person person, string lName)
+    //    {
+    //        person.LastName = lName;
+    //        return person;
+    //    }
+    //}
+    ////Metodo extendido de persona
+    //static public class FluentInterfaceCreatePerson
+    //{
+    //    public static Person Person(this CreatePerson New, string FirstName, string LastName)
+    //    {
+    //        return new Person(FirstName, LastName);
+    //    }
+    //}
+    #endregion
+
+    #region Ejercicio 2
+    //public static class Factory
+    //{
+    //    public static dynamic New => new Person();
+    //}
+    //public class Person : DynamicObject
+    //{
     //    public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
     //    {
-    //        Type dictType = typeof(Dictionary<string, object>);
-    //        try
-    //        {
-    //            result = dictType.InvokeMember(
-    //                         binder.Name,
-    //                         BindingFlags.InvokeMethod,
-    //                         null, properties, args);
-    //            return true;
-    //        }
-    //        catch
+    //        if(binder.Name != "Person")
     //        {
     //            result = null;
     //            return false;
     //        }
+    //        IDictionary<string, object> personExpand = new ExpandoObject();
+
+    //        var argNames = binder.CallInfo.ArgumentNames;
+
+    //        for (int i = 0; i < argNames.Count; i++)
+    //        {
+    //            personExpand.Add(argNames[i], args[i]);
+    //        }
+
+    //        result = personExpand;
+    //        return true;
     //    }
     //}
     #endregion
+
     #region Ejercicio 3
     //public class Factory
     //{
@@ -225,20 +165,10 @@ namespace LP_sem8_Dynamic_Csharp
             //var person = Factory.New.Person(
             //    FirstName: "Louis",
             //    LastName: "Dejardin",
-            //    Manager: New.Person(
-            //        FirstName: "Bertrand", 
+            //    Manager: Factory.New.Person(
+            //        FirstName: "Bertrand",
             //        LastName: "Le Roy"));
-
-            //var p = Factory.New.Person
-            //    (
-            //    FirstName: "Louis",
-            //    LastName: "Dejardin",
-            //    Manager: New.Person(
-            //        FirstName: "asd",
-            //        LastName: "dsa"));
-
-            //p(FirstName:"Louis", LastName:"Dejardin", Manager:d);
-            //Console.WriteLine(p["FirstName"]);
+            //Console.WriteLine("Nombre: {0} \nApellido: {1} \nNombre del Manager: {2} \nApellido del Manager: {3}", person.FirstName, person.LastName, person.Manager.FirstName, person.Manager.LastName);
 
             #endregion
 
